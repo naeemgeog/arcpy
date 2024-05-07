@@ -14,7 +14,7 @@ for dirpath,filename,filenames in os.walk(rootdir):
             filepath= os.path.join(dirpath,files)
             inRaster = filepath
             arcpy.env.snapRaster = filepath
-            outname = files[4:9]#files.split('.')[0].split('pet_')[1]     #idr file ka name ka number adjust krna hy jaisy pet_2000_1 k liya files[4:9] agr error dy to isy cut kr dy phir isy files.split('.')[0].split('pet_')[1] isy lgay  
+            outname = files.split('.')[0].split('pet_')[1]   #files[4:9]     #idr file ka name ka number adjust krna hy jaisy pet_2000_1 k liya files[4:9] agr error dy to isy cut kr dy phir isy files.split('.')[0].split('pet_')[1] isy lgay  
             outTable=r"E:\Data_Arcpy\outputetp\zonal_" + outname + '.dbf'   #out put dyna jidr database save krna 
             inZoneData =r"E:\Data_Arcpy\Shape\All_Lakes_basin_Temerature_measure_Shape_file2.shp"   #shape file ka path dyna
 
@@ -30,7 +30,7 @@ for dirpath,filename,filenames in os.walk(rootdir):
 
             # Execute ZonalStatisticsAsTable
             outZSaT = ZonalStatisticsAsTable(inZoneData, zoneField, inRaster, 
-                                             outTable, "NODATA", "SUM")    #idr ju cheex calculate krni jaisy mean temp k liya or precipitation or etp k liya "SUM" likhna
+                                             outTable, "NODATA", "MEAN")    #idr ju cheex calculate krni jaisy mean temp or ETP k liya or precipitation k liya "SUM" likhna
             
 
             print outname

@@ -30,7 +30,7 @@ for dirpath,filename,filenames in os.walk(rootdir):
 
             # Execute ZonalStatisticsAsTable
             outZSaT = ZonalStatisticsAsTable(inZoneData, zoneField, inRaster, 
-                                             outTable, "NODATA", "MEAN") #idr ju cheex calculate krni jaisy mean temp k liya or precipitation or etp k liya "SUM" likhna
+                                             outTable, "NODATA", "MEAN") #idr ju cheex calculate krni jaisy mean temp or ETP k liya or precipitation k liya "SUM" likhna
             
 
             print outname

@@ -29,7 +29,7 @@ for dirpath,filename,filenames in os.walk(rootdir):
 
             # Execute ZonalStatisticsAsTable
             outZSaT = ZonalStatisticsAsTable(inZoneData, zoneField, inRaster, 
-                                             outTable, "NODATA", "SUM")
+                                             outTable, "NODATA", "MEAN")
             
 
             print outname
