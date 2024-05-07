@@ -1,0 +1,35 @@
+#-------By Naeem------
+#--if you want to conver database file in to excel use this code...this code is test in PET data
+import arcpy
+import os
+
+# Set environment settings
+arcpy.env.workspace = r"E:\Data_Arcpy\outputetp" #input data
+
+# Output directory for Excel files
+output_dir = r"E:\Data_Arcpy\Exceloutput" #Output data
+
+# Create the output directory if it doesn't exist
+if not os.path.exists(output_dir):
+    os.makedirs(output_dir)
+
+# Loop through each year and month to process DBF files
+for year in range(2000, 2022):
+    for month in range(1, 13):
+        dbf_file = "zonal_{0}_{1}.dbf".format(year, month)
+        dbf_path = os.path.join(arcpy.env.workspace, dbf_file)
+        
+        # Check if the DBF file exists
+        if arcpy.Exists(dbf_path):
+            # Output Excel file path
+            out_xls = os.path.join(output_dir, "{0}_{1}.xls".format(year, month))
+            
+            try:
+                # Convert DBF to Excel, specifying only the "MEAN" field
+                arcpy.TableToExcel_conversion(dbf_path, out_xls)
+                
+                print("Converted {0} to Excel successfully.".format(dbf_file))
+            except Exception as e:
+                print("Error converting {0} to Excel: {1}".format(dbf_file, e))
+
+print("All DBF files processed and converted to Excel.")
