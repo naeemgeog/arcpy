@@ -1,0 +1,37 @@
+#------by Naeem-dbf etp 2022 to excel code arpy
+
+import arcpy
+import os
+
+# Set environment settings
+arcpy.env.workspace = r"E:\Data_Arcpy\etp2022\dbf"  # input data
+
+# Output directory for Excel files
+output_dir = r"E:\Data_Arcpy\etp2022\output"  # Output data
+
+# Create the output directory if it doesn't exist
+if not os.path.exists(output_dir):
+    os.makedirs(output_dir)
+
+# Loop through each month to process DBF files for the year 2022
+year = 2022
+for month in range(1, 13):
+    dbf_file = "zonal_{0}_{1}.dbf".format(year, month)
+    dbf_path = os.path.join(arcpy.env.workspace, dbf_file)
+
+    # Check if the DBF file exists
+    if arcpy.Exists(dbf_path):
+        # Output Excel file path
+        out_xls = os.path.join(output_dir, "{0}_{1}.xls".format(year, month))
+
+        try:
+            # Convert DBF to Excel, specifying only the "MEAN" field
+            arcpy.TableToExcel_conversion(dbf_path, out_xls)
+
+            print("Converted {0} to Excel successfully.".format(dbf_file))
+        except Exception as e:
+            print("Error converting {0} to Excel: {1}".format(dbf_file, e))
+    else:
+        print("DBF file {0} not found.".format(dbf_file))
+
+print("All DBF files processed and converted to Excel.")
