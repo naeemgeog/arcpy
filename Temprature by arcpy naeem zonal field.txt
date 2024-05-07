@@ -1,0 +1,37 @@
+#-------Temprature calculate by mean 
+#....Edit by Longhao Wang....
+import arcpy
+from arcpy import env
+from arcpy.sa import *
+import os
+import os.path
+import sys
+arcpy.env.workspace=r"E:\Data_Arcpy\ERA"  #input folder ka path dyna hy jaisy k tiff file ka jis myn sara data majood hy
+rootdir=r"E:\Data_Arcpy\ERA" #input folder ka path dyna hy jaisy k tiff file ka jis myn sara data majood hy
+for dirpath,filename,filenames in os.walk(rootdir):
+    for files in filenames:
+        if os.path.splitext(files)[1]=='.tif':
+            filepath= os.path.join(dirpath,files)
+            inRaster = filepath
+            arcpy.env.snapRaster = filepath
+            outname = files[5:13]#files.split('.')[0].split('pet_')[1] #idr file ka name ka number adjust krna hy ....jaisy ERA5_20000101 for exaple 0 sy number count krny shuru krny slash k bad 1 word count krna  ju 5 bany gy[5:13] or us k bad last tk count or 1 hindsa jama krna 
+            outTable=r"E:\Data_Arcpy\ERA\eraout\zonal_" + outname + '.dbf'#out put dyna jidr database save krna 
+            inZoneData =r"E:\Data_Arcpy\Shape\All_Lakes_basin_Temerature_measure_Shape_file2.shp"#shape file ka path dyna
+
+            # Set local variables
+
+            zoneField = "Lake_No" #jis field ko rerence dyna uska idr likhna
+
+
+
+
+            # Check out the ArcGIS Spatial Analyst extension license
+            arcpy.CheckOutExtension("Spatial")
+
+            # Execute ZonalStatisticsAsTable
+            outZSaT = ZonalStatisticsAsTable(inZoneData, zoneField, inRaster, 
+                                             outTable, "NODATA", "MEAN") #idr ju cheex calculate krni jaisy mean temp k liya or precipitation or etp k liya "SUM" likhna
+            
+
+            print outname
+            print "ok"

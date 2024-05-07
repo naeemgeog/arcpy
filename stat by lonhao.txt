@@ -1,0 +1,36 @@
+#....Edit by Longhao Wang....
+import arcpy
+from arcpy import env
+from arcpy.sa import *
+import os
+import os.path
+import sys
+arcpy.env.workspace=r"F:\test data\input"
+rootdir=r"F:\test data\input"
+for dirpath,filename,filenames in os.walk(rootdir):
+    for files in filenames:
+        if os.path.splitext(files)[1]=='.tif':
+            filepath= os.path.join(dirpath,files)
+            inRaster = filepath
+            arcpy.env.snapRaster = filepath
+            outname = files[1:9]
+            outTable=r"F:\test data\output\mask_" + outname + 'china.dbf'
+            inZoneData =r"F:\test data\shp\china.shp"
+
+            # Set local variables
+
+            zoneField = "name"
+
+
+
+
+            # Check out the ArcGIS Spatial Analyst extension license
+            arcpy.CheckOutExtension("Spatial")
+
+            # Execute ZonalStatisticsAsTable
+            outZSaT = ZonalStatisticsAsTable(inZoneData, zoneField, inRaster, 
+                                             outTable, "NODATA", "MEAN")
+            
+
+            print outname
+            print "ok"
